@@ -1,7 +1,7 @@
-<beast beautitemplate='Standard' beautistatus='' namespace="bms.BetaSkylineDistribution:beast.core:beast.evolution.alignment:beast.evolution.tree.coalescent:beast.core.util:beast.evolution.nuc:beast.evolution.operators:beast.evolution.sitemodel:beast.evolution.substitutionmodel:beast.base.evolution.alignment:beast.pkgmgmt:beast.base.core:beast.base.inference:beast.base.evolution.tree.coalescent:beast.pkgmgmt:beast.base.core:beast.base.inference.util:beast.evolution.nuc:beast.base.evolution.operator:beast.base.inference.operator:beast.base.evolution.sitemodel:beast.base.evolution.substitutionmodel:beast.base.evolution.likelihood" required="BEAST.base v2.7.5" version="2.7">
+<beast beautitemplate='Standard' beautistatus='' namespace="bms.BetaSkylineDistributionVersion2:beast.core:beast.evolution.alignment:beast.evolution.tree.coalescent:beast.core.util:beast.evolution.nuc:beast.evolution.operators:beast.evolution.sitemodel:beast.evolution.substitutionmodel:beast.base.evolution.alignment:beast.pkgmgmt:beast.base.core:beast.base.inference:beast.base.evolution.tree.coalescent:beast.pkgmgmt:beast.base.core:beast.base.inference.util:beast.evolution.nuc:beast.base.evolution.operator:beast.base.inference.operator:beast.base.evolution.sitemodel:beast.base.evolution.substitutionmodel:beast.base.evolution.likelihood" required="BEAST.base v2.7.5" version="2.7">
 
-    <alignment id="simulated_alignment" spec='feast.fileio.AlignmentFromNexus' fileName="$(basedir)/simulated_alignment.nexus"/>
-    <tree id="Tree.t:simulated_alignment" spec='feast.fileio.TreeFromNexusFile' fileName="$(basedir)/simulated_tree.nexus" IsLabelledNewick="true" adjustTipHeights="false"/>
+    <alignment id="simulated_alignment" spec='feast.fileio.AlignmentFromNexus' fileName="/home/philipp/Documents/MasterThesis/beast_and_friends/pitchfork/validation/DirectSimulation/popFunction1/simulated_alignment.nexus"/>
+    <tree id="Tree.t:simulated_alignment" spec='feast.fileio.TreeFromNexusFile' fileName="/home/philipp/Documents/MasterThesis/beast_and_friends/pitchfork/validation/DirectSimulation/popFunction1/simulated_tree.nexus" IsLabelledNewick="true" adjustTipHeights="false"/>
     <taxonset id="taxonSet" spec="TaxonSet"> <alignment idref="simulated_alignment"/> </taxonset>
 
     <map name="Uniform" >beast.base.inference.distribution.Uniform</map>
@@ -17,8 +17,8 @@
 
     <run id="mcmc" spec="MCMC" chainLength="100000">
         <state id="state" spec="State" storeEvery="1000">
-            <stateNode id="bPopSizes.t:simulated_alignment" spec="parameter.RealParameter" dimension="5" lower="0.0" value="1.0"/>
-            <stateNode id="bGroupSizes.t:simulated_alignment" spec="parameter.IntegerParameter" dimension="5" lower="1" value="20"/>
+            <stateNode id="bPopSizes.t:simulated_alignment" spec="parameter.RealParameter" dimension="6" lower="0.0" value="1.0"/>
+            <stateNode id="bGroupSizes.t:simulated_alignment" spec="parameter.IntegerParameter" dimension="6" lower="1" value="10"/>
             <stateNode id="alpha:simulated_alignment" spec="parameter.RealParameter" lower="1" upper="2" value="1.5"/>
     <!--        <parameter id="clockRate.c:simulated_alignment" spec="parameter.RealParameter" estimate="false" lower="0.0" name="stateNode">7.9E-4</parameter> -->
     <!--        <tree id="Tree.t:simulated_alignment" spec="beast.base.evolution.tree.Tree" name="stateNode">
@@ -36,8 +36,8 @@
 
         <distribution spec="CompoundDistribution" id="posterior">
             <distribution id="prior" spec="CompoundDistribution">
-                <distribution id="BayesianSkyline.t:simulated_alignment" spec="bms.BetaSkylineDistributionVersion$(version)" groupSizes="@bGroupSizes.t:simulated_alignment" skylinePopulations="@bPopSizes.t:simulated_alignment">
-                    <model id="beta-model" spec="bms.BetaCoalescentModel" taxonSet="@taxonSet" alpha="@alpha:simulated_alignment"/>
+                <distribution id="BayesianSkyline.t:simulated_alignment" spec="bms.BetaSkylineDistributionVersion3" groupSizes="@bGroupSizes.t:simulated_alignment" skylinePopulations="@bPopSizes.t:simulated_alignment">
+                    <model id="beta-model" spec="pitchfork.models.BetaCoalescentModel" taxonSet="@taxonSet" alpha="@alpha:simulated_alignment"/>
                     <collapsedTreeIntervals id="BSPTreeIntervals.t:simulated_alignment" spec="pitchfork.models.CollapsedTreeIntervals" tree="@Tree.t:simulated_alignment"/>
                 </distribution>
                 <distribution id="MarkovChainedPopSizes.t:simulated_alignment" spec="distribution.MarkovChainDistribution" parameter="@bPopSizes.t:simulated_alignment" initialMean="1"/>
@@ -67,7 +67,7 @@
             <intparameter idref="bGroupSizes.t:simulated_alignment"/>
         </operator>
 
-        <logger id="tracelog" spec="Logger" fileName="$(outputDir)/example_skyline_function_$(popFunction).log" logEvery="1000" model="@posterior" sanitiseHeaders="true" sort="smart">
+        <logger id="tracelog" spec="Logger" fileName="example_skyline_function_1.log" logEvery="1000" model="@posterior" sanitiseHeaders="true" sort="smart">
     <!--    <logger id="tracelog" spec="Logger" fileName="example_skyline_function_4.log" logEvery="10000" model="@posterior" sanitiseHeaders="true" sort="smart"> -->
             <log idref="posterior"/>
     <!--        <log idref="likelihood"/>  -->
@@ -84,7 +84,7 @@
     <!--        <log idref="likelihood"/>  -->
             <log idref="prior"/>
         </logger>
-        <logger id="treelog.t:simulated_alignment" spec="Logger" fileName="$(outputDir)/example_skyline_function_$(popFunction).trees" logEvery="2000" mode="tree">
+        <logger id="treelog.t:simulated_alignment" spec="Logger" fileName="example_skyline_function_1.trees" logEvery="2000" mode="tree">
     <!--    <logger id="treelog.t:simulated_alignment" spec="Logger" fileName="example_skyline_function_4.trees" logEvery="2000" mode="tree">  -->
             <log id="TreeWithMetaDataLogger.t:simulated_alignment" spec="beast.base.evolution.TreeWithMetaDataLogger" tree="@Tree.t:simulated_alignment"/>
         </logger>

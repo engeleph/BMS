@@ -4,9 +4,9 @@ import beast.base.inference.parameter.IntegerParameter;
 import beast.base.inference.parameter.RealParameter;
 import junit.framework.Assert;
 import org.junit.Test;
-import bms.PitchforkTestClass;
-import bms.models.BetaCoalescentModel;
-import bms.models.CollapsedTreeIntervals;
+import pitchfork.PitchforkTestClass;
+import pitchfork.models.BetaCoalescentModel;
+import pitchfork.models.CollapsedTreeIntervals;
 
 public class BetaSkylineDistributionTest extends PitchforkTestClass {
 

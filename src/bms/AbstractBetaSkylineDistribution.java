@@ -5,7 +5,7 @@ import beast.base.evolution.tree.Tree;
 import beast.base.evolution.tree.TreeDistribution;
 import beast.base.inference.parameter.IntegerParameter;
 import beast.base.inference.parameter.RealParameter;
-import bms.BetaCoalescentModel;
+import pitchfork.models.BetaCoalescentModel;
 import pitchfork.models.CollapsedTreeIntervals;
 
 public abstract class AbstractBetaSkylineDistribution extends TreeDistribution {
@@ -56,8 +56,8 @@ public abstract class AbstractBetaSkylineDistribution extends TreeDistribution {
         for (int groupSize : groupSizes.getValues())
             groupSizesSum += groupSize;
 
-        if (groupSizesSum != tree.getLeafNodeCount() - 1)
-            throw new IllegalArgumentException("Sum of elements of groupSizes input should equal number of leaves - 1.");
+    /**    if (groupSizesSum != tree.getLeafNodeCount() - 1)
+            throw new IllegalArgumentException("Sum of elements of groupSizes input should equal number of leaves - 1.");  */
     }
 
     @Override
